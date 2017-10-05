@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fusion xmlns="http://fusion.scandi.info" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://fusion.scandi.info ../../fusion - gradle/bin/fusion.xsd ">
+	<database connectionType="custom" allowEmptyString="false">
+		<liquibase enabled="true">
+			<schemaName>liquibase</schemaName>
+			<databaseChangelogName>databasechangelog</databaseChangelogName>
+			
+		</liquibase>
+		<driver>org.postgresql.Driver</driver>
+		<url>jdbc:postgresql://localhost:5432/fusion</url>
+		<username>postgres</username>
+		<password>admin</password>
+		<backup enabled="true"/>
+		<init enabled="false">
+			<initFile>init.xml</initFile>
+		</init>
+	</database>
+	<browser enabled="true" type="firefox" remote="false">
+		<extensions enabled="false">
+			<extension name="firebug" path="utils/firebug-1.12.0-fx.xpi"/>
+			<extension name="webdeveloper" path="utils/web_developer-1.2.2-fx.xpi"/>
+		</extensions>
+		<binary>/Applications/Firefox.app/Contents/MacOS/firefox-bin</binary>
+		<downloadDir>/Users/Ninja/Documents/Developpement/tmp/</downloadDir>
+	</browser>
+	<common>
+		<appUrl>https://scandi.info</appUrl>
+		<rootPath>src/test/resources/</rootPath>
+		<logPath>logs/selenium_result.txt</logPath>
+		<screenshotPath>screenshot/</screenshotPath>
+	</common>
+</fusion>

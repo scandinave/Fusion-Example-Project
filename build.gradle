@@ -1,0 +1,107 @@
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+	mavenCentral()
+}
+
+project.webAppDirName = 'WebContent'
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+	def withoutGuava = { exclude group: 'com.google.guava', module: 'guava' }
+    testCompile group: 'io.cucumber', name: 'cucumber-junit', version: '2.0.1', withoutGuava
+    testCompile group: 'io.cucumber', name: 'cucumber-java', version: '2.0.1', withoutGuava
+    testCompile 'org.dbunit:dbunit:2.5.4', withoutGuava
+    testCompile 'junit:junit:4.12', withoutGuava
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.6.0'
+    testCompile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+    testCompile group: 'org.jboss.weld.se', name: 'weld-se-core', version: '2.4.5.Final', withoutGuava
+    testCompile group: 'org.jboss', name: 'jandex', version: '2.0.3.Final'
+    testCompile group: 'io.github.lukehutch', name: 'fast-classpath-scanner', version: '2.7.2'
+    testCompile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4', withoutGuava // Used by FusionBean Class
+    testCompile group: 'commons-io', name: 'commons-io', version: '2.5', withoutGuava // Used by Fusion Class
+}
+
+tasks.eclipse.dependsOn(cleanEclipse)
+
+eclipse {
+    project {
+        name = 'fusionTest'
+    }
+    classpath {
+    
+        downloadJavadoc = true
+        downloadSources = true
+
+        file {
+
+            beforeMerged { classpath ->
+                classpath.entries.clear() 
+            }
+
+            whenMerged { classpath->
+                classpath.entries.findAll { it.kind=="src" && it.path == "src/main/java"}*.output = relativePath(sourceSets.main.output.classesDir)
+                classpath.entries.findAll { it.kind=="src" && it.path == "src/main/resources"}*.output = relativePath(sourceSets.main.output.resourcesDir)
+                classpath.entries.findAll { it.kind=="src" && it.path == "src/test/java"}*.output = relativePath(sourceSets.test.output.classesDir)
+                classpath.entries.findAll { it.kind=="src" && it.path == "src/test/resources"}*.output = relativePath(sourceSets.test.output.resourcesDir)
+            }
+            downloadSources = true
+            downloadJavadoc = true
+        }
+    }
+
+    wtp {
+        // Mise à jour des facet du projet
+        facet {
+            // Ajout de la facet javascript
+            facet name : 'wst.jsdt.web', version: '1.0'
+            
+            file {
+                // Mise a jour de la face web de 2.4 vers 3.1
+                whenMerged { wtpFacet ->
+                    // Récupération de la facet web dans une variable
+                    def installedJstFacet = wtpFacet.facets.find { facet ->
+                        facet.name == 'jst.web' && facet.type == org.gradle.plugins.ide.eclipse.model.Facet.FacetType.installed
+                    }
+                    // Modification de la version.
+                    installedJstFacet.version = '3.1'
+                }
+            }
+        }
+        
+        component {
+            
+        }
+    }
+    
+    jdt {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+sourceSets {
+    main {
+    	java {
+        	srcDirs += 'src/main/java'
+    	}
+        resources {
+            srcDirs += 'src/main/resources'
+        }
+    }
+    
+    test {
+    	java {
+        	srcDirs += 'src/test/java'
+    	}
+    	resources {
+    		srcDirs += 'src/test/resources'
+    	}
+    }
+} 
+
