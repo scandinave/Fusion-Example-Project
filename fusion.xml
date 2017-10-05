@@ -24,7 +24,7 @@
 		<downloadDir>/Users/Ninja/Documents/Developpement/tmp/</downloadDir>
 	</browser>
 	<common>
-		<appUrl>https://scandi.info</appUrl>
+		<appUrl>https://www.google.fr</appUrl>
 		<rootPath>src/test/resources/</rootPath>
 		<logPath>logs/selenium_result.txt</logPath>
 		<screenshotPath>screenshot/</screenshotPath>
