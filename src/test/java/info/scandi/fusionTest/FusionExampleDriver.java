@@ -36,7 +36,7 @@ public class FusionExampleDriver extends AbstractDriver {
 
 	@Override
 	public void navigation(String target) {
-		// TODO Auto-generated method stub
+		this.navigate().to(target);
 
 	}
 

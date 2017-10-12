@@ -2,21 +2,12 @@ Feature: Test Scandi.info
 
 	Scenario: Test Home Page
 		Given home
-		Then ok
+		Then navigation "http://techland.info"
+		Then navigation "http://scandi.info"
+		Then navigation "http://techland.info"
 		
-	Scenario: Test Home Page1
+	Scenario: Test Home Page 2
 		Given home
-		Then ok
-		
-	Scenario: Test Home Page2
-		Given home
-		Then ok
-		
-	Scenario: Test Home Page3
-		Given home
-		Then ok
-		
-	Scenario: Test Home Page4
-		Given home
-		Then ok
-	
+		Then navigation "http://google.fr"
+		Then navigation "http://yahoo.com"
+		Then navigation "http://google.fr"
